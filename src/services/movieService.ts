@@ -13,18 +13,24 @@ interface MoviesResponse {
   total_results: number;
 }
 
-export const fetchMovies = async (query: string): Promise<MoviesResponse> => {
-    console.log("Search query:", query);
-    console.log("API Key:", API_KEY);// Проверяем, что приходит в query
+export const fetchMovies = async (
+  query: string,
+  page: number = 1 // по умолчанию страница 1
+): Promise<MoviesResponse> => {
+  console.log("Search query:", query);
+  console.log("Page:", page);
+  console.log("API Key:", API_KEY);
 
   const response = await axios.get<MoviesResponse>(
     `${API_BASE_URL}/search/movie`,
     {
       params: {
-            api_key: API_KEY,
-          query,
+        api_key: API_KEY,
+        query,
+        page, // добавляю страницу
       },
-    });
- console.log("API response data:", response.data);
+    }
+  );
+
   return response.data;
 };
